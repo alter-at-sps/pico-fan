@@ -1,6 +1,8 @@
 # Key-buzz
 
-a mini synch entirely based on a PWM controlled piezo buzzer. Three tones available with three buttons.
+a mini synth keyboard entirely based on a PWM controlled piezo buzzer. Three tones available with three buttons.
+
+you already heard it. :)
 
 # Schema
 
