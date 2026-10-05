@@ -9,7 +9,7 @@ bus.init(9600, bits=8, parity=None, stop=1)
 # output
 
 led = machine.Pin(1, machine.Pin.OUT)
-mem32[0x4001c00c] = mem32[0x4001c00c] & (~0b0110000) # selects the 2mA option with equals an internal 100ohm resistor
+mem32[0x4001c00c] = mem32[0x4001c00c] & (~0b0110000) # selects the 2mA option with translates into an internal 100ohm resistor
 
 while True:
     state = bus.read(1)
