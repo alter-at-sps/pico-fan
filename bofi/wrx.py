@@ -5,36 +5,40 @@ import time
 
 from machine import mem32
 
-wlan = network.WLAN(network.AP_IF)
+wlan = network.WLAN(network.STA_IF)
 
-ssid = "access_point"
-cred = "12345678"
+ssid = "Redmi"
+cred = "redmitether"
 
 # net init
 
-wlan.config(ssid=ssid, key=cred, channel=11)
+# Micropython AP mode just no work
+#wlan.config(ssid=ssid, key=cred)
+#wlan.active(True)
+
+#while wlan.active() == False:
+#    pass
+
+#print(f"AP initialized, ifconfig: {wlan.ifconfig()}")
+
 wlan.active(True)
+wlan.connect(ssid, cred)
 
-print(f"AP initialized, ifconfig: {wlan.ifconfig()}")
+print("connecting to AP", end="")
+for i in range(5):
+    print('.', end='')
 
-# no one told me i'm doin AP_IF >:(
-#
-# wlan.connect(ssid, cred)
-# print("connecting to AP", end="")
-# for i in range(5):
-#     print('.', end='')
-# 
-#     if wlan.status() < 0 or wlan.status() >= 3:
-#         break
-# 
-#     time.sleep(1)
-# 
-# print()
-# 
-# if wlan.status() != network.STAT_GOT_IP:
-#     raise RuntimeError(f"failed to connect to AP, wlan status: {wlan.status()}")
-# 
-# print(f"connection successful (RSSI: {wlan.status('rssi')})")
+    if wlan.status() < 0 or wlan.status() >= 3:
+        break
+
+    time.sleep(1)
+
+print()
+
+if wlan.status() != network.STAT_GOT_IP:
+    raise RuntimeError(f"failed to connect to AP, wlan status: {wlan.status()}")
+
+print(f"connection successful (ip: {wlan.ifconfig()[0]} RSSI: {wlan.status('rssi')})")
 
 # output
 
@@ -43,8 +47,10 @@ mem32[0x4001c00c] = mem32[0x4001c00c] & (~0b0110000) # selects the 2mA option wi
 
 # UDP socket comms
 
+addr = ('0.0.0.0', 5000)
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(('0.0.0.0', 5000))
+sock.bind(addr)
 
 while True:
     buf, addr = sock.recvfrom(256)
