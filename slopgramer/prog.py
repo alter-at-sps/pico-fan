@@ -535,27 +535,10 @@ class ATTiny13Programmer:
 
 
 # ------------------------------------------------------------
-# Create programmer
+# Basic flasher
 # ------------------------------------------------------------
 
 prog = ATTiny13Programmer()
-
-print()
-print("ATtiny13 Pico ISP programmer")
-print("----------------------------")
-print("MOSI  GP2")
-print("MISO  GP3")
-print("SCK   GP4")
-print("RESET GP5")
-print()
-print("Call:")
-print("  prog.enter()")
-print("  prog.check_device()")
-print("  prog.info()")
-print("  prog.erase()")
-print("  prog.program(image)")
-print("  prog.exit()")
-print()
 
 prog.enter()
 prog.info()
